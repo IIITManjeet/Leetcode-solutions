@@ -1,9 +1,9 @@
 class Solution {
 public:
     long long dp[1024];
-    int squareFreeSubsets(vector<int>& nums) {
-        int primes[]={2,3,5,7,11,13,17,19,23,29};
+    vector<int>primes={2,3,5,7,11,13,17,19,23,29};
     int mod=1e9+7;
+    int squareFreeSubsets(vector<int>& nums) {
         dp[0]=1;
         for(int x:nums){
             bool flag=0;
