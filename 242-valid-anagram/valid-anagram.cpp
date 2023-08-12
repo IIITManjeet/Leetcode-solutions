@@ -1,11 +1,13 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        unordered_map<char,int>m;
-        for(auto it:s)m[it]++;
-        for(auto it:t)m[it]--;
-        for(auto it:m){
-            if(it.second!=0)return false;
+        if (s.size() != t.size()) { return false; }
+        vector<int> v(26, 0);
+        for (int i = 0; i < s.size(); i++) {
+            v[s[i]-'a']++; v[t[i]-'a']--;
+        }
+        for (int i = 0; i < 26; i++) {
+            if (v[i] != 0) { return false; }
         }
         return true;
     }
