@@ -1,27 +1,26 @@
 class Solution {
 public:
-   void dfs(const vector<int>& jobs, vector<int>& workers, int curr, int& res) {
-        if (curr == jobs.size()) {
-            res = min(res, *max_element(workers.begin(), workers.end()));
-            return;
-        }
-
-        unordered_set<int> seen;
-        for (int i = 0; i < workers.size(); ++i) {
-            if (seen.find(workers[i]) != seen.end()) continue;
-            if (workers[i] + jobs[curr] >= res) continue;
-            seen.insert(workers[i]);
-            workers[i] += jobs[curr];
-            dfs(jobs, workers, curr + 1, res);
-            workers[i] -= jobs[curr];
-        }
-    }
     int minimumTimeRequired(vector<int>& jobs, int k) {
-        vector<int> workers(k, 0);
-        int res = INT_MAX;
+        const int n = jobs.size();
+        
+        vector<int> sums(1<<n);
+        for (int b = 0; b < (1<<n); ++b) {
+            for (int i = 0; i < n; ++i) {
+                if ((1<<i) & b) sums[b] += jobs[i]; 
+            }    
+        }
+        
+        vector<vector<int>> dp(k+1, vector<int>(1<<n));
+        for (int b = 0; b < (1<<n); ++b) dp[1][b] = sums[b];
+        for (int i = 2; i <= k; ++i) {
+            for (int b = 1; b < (1<<n); ++b) {
+                dp[i][b] = dp[i-1][b];
+                for (int tb = b; tb; tb = (tb-1)&b) {
+                    dp[i][b] = min(dp[i][b], max(sums[tb], dp[i-1][b-tb]));
+                }
+            }
+        }
+        return dp[k][(1<<n)-1];
 
-        dfs(jobs, workers, 0, res);
-
-        return res;
     }
 };
