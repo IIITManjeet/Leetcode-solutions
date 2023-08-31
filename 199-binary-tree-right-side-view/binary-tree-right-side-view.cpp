@@ -12,7 +12,7 @@
 class Solution {
 public:
     void fun(TreeNode* node,int level,vector<int>& ans){
-        if(!node)return;
+        if(node==NULL)return;
         if(level==ans.size())ans.push_back(node->val);
         fun(node->right,level+1,ans);
         fun(node->left,level+1,ans);
