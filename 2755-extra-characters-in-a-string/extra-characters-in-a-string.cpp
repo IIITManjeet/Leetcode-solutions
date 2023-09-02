@@ -1,21 +1,27 @@
 class Solution {
 public:
+    int solve(string& s, unordered_map<string, int>&mp, int index,vector<int>&dp){
+        if (index >= s.size()) return 0;
+        if (dp[index] != -1) return dp[index];
+         string currStr = "";
+        int minExtra = s.size();
+        for (int cutIdx = index; cutIdx < s.size(); cutIdx++)
+        {
+            currStr.push_back(s[cutIdx]);
+            int currExtra = (mp.count(currStr))? 0 : currStr.size();
+            int nextExtra = solve(s, mp, cutIdx + 1,dp);
+            int totalExtra = currExtra + nextExtra;
+            
+            minExtra = min(minExtra, totalExtra);
+        }
+        return dp[index]=minExtra;
+    }
     int minExtraChar(string s, vector<string>& dictionary) {
-         int n = s.length();
-        unordered_set<string> dictionarySet(dictionary.begin(), dictionary.end());
-        unordered_map<int, int> memo;
-        function<int(int)> dp = [&](int start){
-            if(start==n)return 0;
-            if(memo.count(start))return memo[start];
-            int ans = dp(start + 1) + 1;
-            for (int end = start; end < n; end++) {
-                auto curr = s.substr(start, end - start + 1);
-                if (dictionarySet.count(curr)) {
-                    ans = min(ans, dp(end + 1));
-                }
-            }
-            return memo[start] = ans;
-        };
-        return dp(0);
+        unordered_map<string, int>mp;
+        vector<int>dp(s.size(), -1);
+        for (string& word : dictionary) mp[word]++;
+        
+        int ans = solve(s, mp, 0,dp);
+        return ans;
     }
 };
