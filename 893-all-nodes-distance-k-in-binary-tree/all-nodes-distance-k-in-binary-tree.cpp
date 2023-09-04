@@ -11,20 +11,15 @@ class Solution {
 public:
     void makeParent(TreeNode* node,unordered_map<TreeNode*,TreeNode*>& parentCheck){
         if(!node)return;
-        queue<TreeNode*>q;
-        q.push(node);
-        while(!q.empty()){
-            TreeNode* temp=q.front();
-            q.pop();
-            if(temp->left){
-                parentCheck[temp->left]=temp;
-                q.push(temp->left);
+         if(node->left){
+                parentCheck[node->left]=node;
+                
             }
-            if(temp->right){
-                parentCheck[temp->right]=temp;
-                q.push(temp->right);
+            if(node->right){
+                parentCheck[node->right]=node;
             }
-        }
+            makeParent(node->left,parentCheck);
+            makeParent(node->right,parentCheck);
     }
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
         unordered_map<TreeNode*,TreeNode*>parentCheck;
