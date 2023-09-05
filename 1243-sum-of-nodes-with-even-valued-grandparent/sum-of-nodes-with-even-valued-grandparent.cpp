@@ -11,34 +11,16 @@
  */
 class Solution {
 public:
-int findVal(TreeNode* root) {
-        return root ? root->val : 0;
-    }
-    int sumEvenGrandparent(TreeNode* root) {
-       if (root == NULL) {
+int solve(TreeNode* root, int parent, int gParent) {
+        if (!root) {
             return 0;
         }
-        
-        queue<TreeNode*> q;
-        q.push(root);
-        
-        int sum = 0;
-        while(!q.empty()){
-           TreeNode* curr = q.front();
-           q.pop();
-           if (curr->val % 2 == 0) {
-                if (curr->left) {
-                    sum += findVal(curr->left->left) + findVal(curr->left->right);
-                }
-                if (curr->right) {
-                    sum += findVal(curr->right->left) + findVal(curr->right->right);
-                }
-            }
-                        if (curr->left) 
-                q.push(curr->left);
-            if (curr->right)
-                q.push(curr->right);
-        } 
-        return sum;
+        return solve(root->left, root->val, parent) 
+                + solve(root->right, root->val, parent)
+                + (gParent % 2 ? 0 : root->val);
+    }
+
+    int sumEvenGrandparent(TreeNode* root) {
+        return solve(root,-1,-1);
     }
 };
