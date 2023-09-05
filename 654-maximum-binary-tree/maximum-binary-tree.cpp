@@ -11,22 +11,29 @@
  */
 class Solution {
 public:
-    int max(vector<int>&nums,int l,int r){
-        int maxI=l;
-        for(int i=l;i<r;i++){
-            if(nums[i]>nums[maxI])maxI=i;
+    // int max(vector<int>&nums,int l,int r){
+    //     int maxI=l;
+    //     for(int i=l;i<r;i++){
+    //         if(nums[i]>nums[maxI])maxI=i;
+    //     }
+    //     return maxI;
+    // }
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums,int start,int end){
+       if(start>end) return nullptr;
+        int index=-1;
+        int val=-1;
+        for(int i=start;i<=end;i++){
+            if(nums[i]>val){
+                index=i;
+                val=nums[i];
+            }
         }
-        return maxI;
-    }
-    TreeNode* construct(vector<int>&nums,int l,int r){
-        if(l==r)return nullptr;
-        int maxEle=max(nums,l,r);
-        TreeNode* root=new TreeNode(nums[maxEle]);
-        root->left=construct(nums,l,maxEle);
-        root->right=construct(nums,maxEle+1,r);
+        TreeNode* root=new TreeNode(val);
+        root->left=constructMaximumBinaryTree(nums,start,index-1);
+        root->right=constructMaximumBinaryTree(nums,index+1,end);
         return root;
     }
     TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
-        return construct(nums,0,nums.size());
+        return constructMaximumBinaryTree(nums,0,nums.size()-1);
     }
 };
