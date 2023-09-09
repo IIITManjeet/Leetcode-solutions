@@ -1,29 +1,33 @@
 class Solution {
 public:
-    void dfs(int i,int num,vector<vector<int>>& isConnected,vector<bool>&visited){
-        visited[i]=true;
-        vector<int>adj;
-        for(int j=0;j<num;j++){
-            int x=isConnected[i][j];
-            if(x==1){
-                adj.push_back(j);
-            }
-        }
-        for(auto x:adj){
-            if(!visited[x]){
-                dfs(x,num,isConnected,visited);
-            }
-        }
-}
+    int visited[205];
+    void check(vector<int> v[],int itr)
+    {
+        if(visited[itr]) 
+            return;
+// Visiting all the connected nodes with our called node.
+        visited[itr]=1;
+        for(int i=0;i<v[itr].size();i++)
+            check(v,v[itr][i]);
+
+        return;
+    }
+
+
     int findCircleNum(vector<vector<int>>& isConnected) {
-        int num=isConnected.size();
-        vector<bool>visited(num,false);int count=0;
-        for(int i=0;i<num;i++){
-            if(!visited[i]){
-                count++;
-                dfs(i,num,isConnected,visited);
+        int ans=0; // This is our count.
+        vector<int> v[isConnected.size()];
+// Structuring the Graph.
+        for(int i=0;i<isConnected.size();i++)
+            for(int j=0;j<isConnected[i].size();j++)
+                if(isConnected[i][j])v[i].push_back(j);
+// Calling the unvisited Nodes.
+        for(int i=0;i<isConnected.size();i++)
+            if(!visited[i])
+            {
+                check(v,i);
+                ans++;
             }
-        }
-        return count;
+        return ans;
     }
 };
