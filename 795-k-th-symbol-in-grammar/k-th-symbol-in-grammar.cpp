@@ -1,14 +1,14 @@
 class Solution {
 public:
-    int kthGrammar(int n, int k) {
-         if (n == 1) {
-            return 0;
+    int kthGrammar(int N, int K) {
+        if(N==1 && K==1) return 0;
+        
+        int mid=pow(2,N-1)/2;
+        
+        if(K<=mid){
+            return kthGrammar(N-1, K);
+        }else{
+            return !(kthGrammar(N-1, K-mid));
         }
-        int totalElements = pow(2, (n - 1));
-        int halfElements = totalElements / 2;
-        if (k > halfElements) {
-            return 1 - kthGrammar(n, k - halfElements);
-        }
-        return kthGrammar(n - 1, k);
     }
 };
