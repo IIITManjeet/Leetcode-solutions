@@ -1,33 +1,49 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
-public:
-    void count(TreeNode* root,unordered_map<int, int>& pq){
-        if(root==NULL)return;
-        pq[root->val]++;
-        count(root->left,pq);
-        count(root->right,pq);
-    }
+public:   
     vector<int> findMode(TreeNode* root) {
-        unordered_map<int, int> pq;
-        count(root,pq);
-        vector<int>ans;
-        int maxVal=INT_MIN;
-        for(auto it:pq){
-            maxVal=max(it.second,maxVal);
+        vector<int> ans;
+        int maxStreak = 0;
+        int currStreak = 0;
+        int currNum = 0;
+        
+        TreeNode* curr = root;
+        while (curr != nullptr) {
+            if (curr->left != nullptr) {
+                // Find the friend
+                TreeNode* friendNode = curr->left;
+                while (friendNode->right != nullptr) {
+                    friendNode = friendNode->right;
+                }
+                
+                friendNode->right = curr;
+                
+                // Delete the edge after using it
+                TreeNode* left = curr->left;
+                curr->left = nullptr;
+                curr = left;
+            } else {
+                // Handle the current node
+                int num = curr->val;
+                if (num == currNum) {
+                    currStreak++;
+                } else {
+                    currStreak = 1;
+                    currNum = num;
+                }
+
+                if (currStreak > maxStreak) {
+                    ans = {};
+                    maxStreak = currStreak;
+                }
+
+                if (currStreak == maxStreak) {
+                    ans.push_back(num);
+                }
+                
+                curr = curr->right;
+            }
         }
-        for(auto it:pq){
-            if(it.second==maxVal)ans.push_back(it.first);
-        }
+        
         return ans;
     }
 };
