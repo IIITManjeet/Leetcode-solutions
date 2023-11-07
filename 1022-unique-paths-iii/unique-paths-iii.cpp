@@ -1,7 +1,7 @@
 class Solution {
 public:
     int n, m, totalZeros = 0;
-    pair<int, int> src, dest;
+    pair<int, int> src;
 
     int dfs(int sx, int sy, vector<vector<int>>& grid, int z) {
         if (sx < 0 || sy < 0 || sx >= n || sy >= m || grid[sx][sy] == -1) {
@@ -25,7 +25,6 @@ public:
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (grid[i][j] == 1) src = { i, j };
-                else if (grid[i][j] == 2) dest = { i, j };
                 else if (grid[i][j] == 0) totalZeros++;
             }
         }
