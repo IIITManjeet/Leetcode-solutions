@@ -1,24 +1,20 @@
 class Solution {
 public:
     vector<int> getSumAbsoluteDifferences(vector<int>& nums) {
-        int sum = 0;
-        for (int n : nums) {
-            sum += n;
+        int n=nums.size();
+        vector<int>res(n);
+        int lt=0;
+        int rt=0;
+        for(int i=0;i<n;i++)
+        {
+            rt+=nums[i];
         }
-        int left = 0;
-        int right = sum;
-
-        std::vector<int> result(nums.size(), 0);
-
-        for (int i = 0; i < nums.size(); i++) {
-            int n = nums[i];
-            right -= n;
-
-            result[i] = n * i - left + right - n * (nums.size() - i - 1);
-
-            left += n;
+        for(int i=0;i<n;i++)
+        {
+            res[i]=(nums[i]*i-lt)+(rt-nums[i]*(n-i));
+            lt+=nums[i];
+            rt-=nums[i];
         }
-
-        return result;
+        return res;
     }
 };
