@@ -9,6 +9,6 @@ public:
         //     n=n>>1;
         // }
         // return ans;
-        return __builtin_popcount(n);
+        return bitset<32>(n).count();
     }
 };
