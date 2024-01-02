@@ -8,16 +8,14 @@ public:
             number = max(number, mp[nums[i]]);
         }
         
-        vector<vector<int>> v;
-        for (int i = 0; i < number; i++) {
-            vector<int> st;
-            for (auto& it : mp) {
-                if (it.second > 0) {
-                    st.push_back(it.first);
-                    it.second--;
-                }
+        vector<vector<int>> v(number);
+        for(auto a: mp){
+            int num = a.first;
+            int freq = a.second;
+
+            for(int i =0;i<freq;i++){
+                v[i].push_back(num);
             }
-            v.push_back(st);
         }
         return v;
     }
