@@ -1,14 +1,14 @@
 class Solution {
 public:
     vector<vector<int>> findMatrix(vector<int>& nums) {
-        unordered_map<int, int> mp;
-        int number = INT_MIN;
-        for (int i = 0; i < nums.size(); i++) {
-            mp[nums[i]]++;
-            number = max(number, mp[nums[i]]);
+        unordered_map<int,int>mp;
+        int cnt =0;
+
+        for(auto a:nums){
+            mp[a]++;
+            cnt = max(cnt,mp[a]);
         }
-        
-        vector<vector<int>> v(number);
+        vector<vector<int>>v(cnt);
         for(auto a: mp){
             int num = a.first;
             int freq = a.second;
@@ -18,5 +18,6 @@ public:
             }
         }
         return v;
+        
     }
 };
