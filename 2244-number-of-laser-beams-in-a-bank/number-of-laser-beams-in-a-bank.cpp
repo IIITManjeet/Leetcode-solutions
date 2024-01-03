@@ -1,21 +1,26 @@
 class Solution {
 public:
-    int numberOfBeams(vector<string>& bank) {
-        int prev = 0, ans = 0;
-        
-        for (string s : bank) {
-            int count = 0;
-            for (char c : s) {
-                if (c == '1') {
-                    count++;
-                }
-            }
-            if (count != 0) {
-                ans += (prev * count);
-                prev = count;
-            }
+    int numberOfBeams(std::vector<std::string>& bank) {
+        int prevRowCount = 0;
+        int total = 0;
+
+        for (const std::string& row : bank) {
+            int curRowCount = calc(row);
+            if (curRowCount == 0)
+                continue;
+
+            total += curRowCount * prevRowCount;
+            prevRowCount = curRowCount;
         }
-        
-        return ans;
+        return total;
+    }
+
+private:
+    int calc(const std::string& s) {
+        int count = 0;
+        for (char c : s)
+            count += c - '0';
+
+        return count;
     }
 };
