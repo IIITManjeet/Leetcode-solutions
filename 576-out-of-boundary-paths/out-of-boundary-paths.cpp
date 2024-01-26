@@ -17,6 +17,11 @@ public:
     }
     int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
         memset(dp,-1,sizeof(dp));
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                dp[i][j][0]=0;
+            }
+        }
         return f(startRow,startColumn,maxMove,m,n);
     }
 };
