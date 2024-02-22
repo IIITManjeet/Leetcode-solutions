@@ -8,5 +8,5 @@ public:
                 return abs(nums[i]);
         }    
         return -1;
-        }
+    }
 };
