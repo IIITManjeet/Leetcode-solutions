@@ -1,12 +1,9 @@
 class Solution {
 public:
     vector<int> sortedSquares(vector<int>& nums) {
-        multiset<int>st;
-        for(int n:nums){
-            int sq=n*n;
-            st.insert(sq);
-        }
-        vector<int>v(st.begin(),st.end());
-        return v;
+        vector<int> squares(nums.size());
+        transform(nums.begin(), nums.end(), squares.begin(), [](int num) { return num * num; });
+        sort(squares.begin(), squares.end());
+        return squares;   
     }
 };
