@@ -1,26 +1,38 @@
 class Solution {
 public:
     string minRemoveToMakeValid(string s) {
-        stack<pair<char,int>>st;
-        for(int i=0;i<s.size();i++){
-            char ch=s[i];
-            if(ch==')' || ch=='('){
-                if(st.empty())st.push({ch,i});
-            else if(st.top().first=='(' && ch==')')st.pop();
-            else st.push({ch,i});
+        int openCount = 0;
+        unordered_map<int, bool> toRemove;
+        for (int i = 0; i < s.size(); ++i) {
+            if (s[i] == '(') {
+                ++openCount;
+            } else if (s[i] == ')') {
+                if (openCount > 0) {
+                    --openCount;
+                } else {
+                    toRemove[i] = true;
+                }
             }
         }
-        set<int>ind;
-        while(!st.empty()){
-           ind.insert(st.top().second);
-           st.pop();
-        }
-        string ans="";
-        for(int i=0;i<s.size();i++){
-            if(ind.find(i)==ind.end()){
-                ans+=s[i];
+        openCount = 0;
+        for (int i = s.size() - 1; i >= 0; --i) {
+            if (s[i] == '(') {
+                if (openCount == 0) {
+                    toRemove[i] = true;
+                } else {
+                    --openCount;
+                }
+            } else if (s[i] == ')') {
+                ++openCount;
             }
         }
+        string ans = "";
+        for (int i = 0; i < s.size(); ++i) {
+            if (!toRemove.count(i)) {
+                ans += s[i];
+            }
+        }
+
         return ans;
     }
 };
