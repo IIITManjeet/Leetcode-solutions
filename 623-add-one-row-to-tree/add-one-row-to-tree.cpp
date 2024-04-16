@@ -11,28 +11,50 @@
  */
 class Solution {
 public:
-    void dfs(TreeNode* root, int val,int cur, int depth){
-        if(!root)return;
-        if(cur==depth-2){
-            TreeNode* node=root->left;
-            root->left=new TreeNode(val);
-            root->left->left=node;
-            node=root->right;
-            root->right=new TreeNode(val);
-            root->right->right=node;
-        }else{
-            dfs(root->left,val,cur+1,depth);
-        dfs(root->right,val,cur+1,depth);
+
+    void addNode(TreeNode *root, int val, int depth, int curDep) {
+        if (root == NULL) {
+            return ;
         }
-        return ;
+
+        if (curDep + 1 == depth) {
+            TreeNode *ltemp = root->left;
+            TreeNode *rtemp = root->right;
+
+            root->left = new TreeNode(val);
+            root->right = new TreeNode(val);
+
+            if (ltemp) {
+                root->left->left = ltemp;
+            }
+
+            if (rtemp) {
+                root->right->right = rtemp;
+            }
+            return;
+        }
+
+        addNode(root->left, val, depth, curDep+1);
+        addNode(root->right, val, depth, curDep+1);
     }
+
     TreeNode* addOneRow(TreeNode* root, int val, int depth) {
-        if(depth==1){
-            TreeNode* node=new TreeNode(val);
-            node->left=root;
-            return node;
+        if (root == NULL) {
+            if (depth == 1) {
+                return new TreeNode(val);
+            }
+
+            return NULL;
         }
-        dfs(root,val,0,depth);
+
+        if (depth == 1) {
+            TreeNode *newRoot = new TreeNode(val);
+            newRoot->left = root;
+            return newRoot;
+        }
+
+        int curDepth = 1;
+        addNode(root, val, depth, curDepth);
         return root;
     }
 };
