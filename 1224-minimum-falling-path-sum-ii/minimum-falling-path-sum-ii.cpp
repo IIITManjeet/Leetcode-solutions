@@ -3,7 +3,7 @@ public:
     int f(int i, int j, vector<vector<int>>& grid, vector<vector<int>>& dp, int n, int m) {
         if (i < 0 || j < 0 || j >= m) return INT_MAX;
         if (dp[i][j] != INT_MAX) return dp[i][j];
-        if (i == 0) return grid[0][j];
+        if (i == 0) return dp[0][j]=grid[0][j];
         
         int temp = INT_MAX;
         for (int k = 0; k < m; k++) {
