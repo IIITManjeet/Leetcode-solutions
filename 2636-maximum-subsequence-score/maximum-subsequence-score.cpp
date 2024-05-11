@@ -12,12 +12,10 @@ public:
         for(int i = 0; i < n; i++){
             v.PB({nums2[i], nums1[i]});
         }
-        sort(v.begin(), v.end(), greater<pair<int, int>>());
-
+        sort(all(v), greater<pair<int, int>>());
         for(int j = 0; j < n; j++){
             sum += v[j].second;
             pq.push(v[j].second);
-
             if(pq.size() ==k){
                 ans = max(ans, sum * v[j].first);
                 sum -= pq.top();
